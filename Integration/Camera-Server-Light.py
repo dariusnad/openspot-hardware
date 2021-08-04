@@ -68,19 +68,19 @@ def camera_pic():
     filename = "%s.jpg" % unique_filename
     final_path = os.path.join('/home/pi/Desktop/CameraPics', filename)
 
+    camera.resolution = (2592, 1944)
+    camera.framerate = 15
+
     camera.start_preview()
     sleep(3)
     print ("Taking a Pic")
     camera.capture(final_path)
     camera.stop_preview()
     
-    #pictures  = {'myfile': final_path}
-    #filename1 = pictures['myfile']
     
     url = 'http://192.168.150.200:8000/cv/'
     files = {'myfile': open(final_path, 'rb')}
     
-    #image = open(filename1, 'rb').read()
     res = requests.post(url, files=files)
     # 0 - off, 1 - red, 2 - yellow, 3-green
     
@@ -89,17 +89,6 @@ def camera_pic():
     lightNum = res.json()['light_colour']
     
     light(lightNum)
-    
-   # ssh = paramiko.SSHClient()
-    #ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-   # ssh.connect('192.168.1.76', username = 'gurmeshshergill', password = 'hr634431')
-   # sftp = ssh.open_sftp()
-    
-    
-   # sftp.put(final_path, os.path.join('/Users/gurmeshshergill/desktop/Rasp', filename))
-   # sftp.close()
-   # ssh.close()
-   
     
 
 #print ("Smile")
